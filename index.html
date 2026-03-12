@@ -131,7 +131,12 @@
 <body>
     <div class="dashboard-container" id="dashboard">
         <div class="container">
-            <h1>Pi Dashboard</h1>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 40px;">
+                <h1 style="margin-bottom: 0;">Pi Dashboard</h1>
+                <button onclick="checkForUpdates()" style="background: none; border: none; cursor: pointer; color: var(--text); opacity: 0.6; padding-top: 8px;" title="Güncellemeleri Denetle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path></svg>
+                </button>
+            </div>
             <div class="grid">
                 <div class="app-card" onclick="openApp('/grocery/')">
                     <span class="emoji">🛒</span>
@@ -181,6 +186,17 @@
             setTimeout(() => {
                 iframe.src = 'about:blank';
             }, 400);
+        }
+
+        async function checkForUpdates() {
+            if ('serviceWorker' in navigator) {
+                const registration = await navigator.serviceWorker.getRegistration();
+                if (registration) {
+                    await registration.update();
+                    console.log('Update check triggered');
+                }
+            }
+            window.location.reload();
         }
 
         // PWA Update Logic
