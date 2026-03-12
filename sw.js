@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pi-dash-v1';
+const CACHE_NAME = 'pi-dash-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -6,7 +6,7 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (e) => {
-  self.skipWaiting();
+  self.skipWaiting(); // Force the waiting service worker to become active.
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
@@ -17,10 +17,13 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) return caches.delete(cache);
+          if (cache !== CACHE_NAME) {
+            console.log('Eski Dashboard cache temizlendi:', cache);
+            return caches.delete(cache);
+          }
         })
       );
-    })
+    }).then(() => self.clients.claim()) // Take control of all clients immediately.
   );
 });
 
