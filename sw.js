@@ -1,8 +1,8 @@
 const CACHE_NAME = 'pi-dash-v8';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  './',
+  'index.html',
+  'manifest.json'
 ];
 
 self.addEventListener('install', (e) => {

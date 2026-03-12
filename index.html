@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Pi Dash">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2333/2333313.png">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f0f1a">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -138,11 +138,11 @@
                 </button>
             </div>
             <div class="grid">
-                <div class="app-card" onclick="openApp('/grocery/')">
+                <div class="app-card" onclick="openApp('grocery/')">
                     <span class="emoji">🛒</span>
                     <span class="name">Grocery App</span>
                 </div>
-                <div class="app-card" onclick="openApp('/learn/')">
+                <div class="app-card" onclick="openApp('learn/')">
                     <span class="emoji">📚</span>
                     <span class="name">LearnWords</span>
                 </div>
@@ -202,7 +202,7 @@
         // PWA Update Logic
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(reg => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
                     reg.addEventListener('updatefound', () => {
                         const newWorker = reg.installing;
                         newWorker.addEventListener('statechange', () => {

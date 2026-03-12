@@ -13,9 +13,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Sync Files to Dashboard Folder
+        env:
+          DEPLOY_PATH: /home/umitkumbul/Dashboard/
         run: |
-          mkdir -p /home/umitkumbul/Dashboard/
-          rsync -av --delete ./ /home/umitkumbul/Dashboard/
+          mkdir -p ${{ env.DEPLOY_PATH }}
+          rsync -av --delete ./ ${{ env.DEPLOY_PATH }}
           # Ensure Tailscale serve is still correctly pointed
-          # (Tailscale remembers background serves, but running this ensures path exists)
-          sudo tailscale serve --bg --set-path=/ /home/umitkumbul/Dashboard/index.html
+          # Serving the whole directory instead of just index.html
+          sudo tailscale serve --bg --set-path=/ ${{ env.DEPLOY_PATH }}
