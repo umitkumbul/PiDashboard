@@ -135,17 +135,19 @@
     </div>
 
     <script>
-        // iOS PWA Navigation Fix: Keep links inside the standalone app
-        (function(a, b, c) {
-            if (c in b && b[c]) {
-                var d, e = a.location, f = /^(a|html)$/i;
-                a.addEventListener("click", function(a) {
-                    d = a.target;
-                    while (!f.test(d.nodeName)) d = d.parentNode;
-                    "href" in d && (d.href.indexOf("http") || ~d.href.indexOf(e.host)) && (a.preventDefault(), e.href = d.href)
-                }, !1)
-            }
-        })(document, window.navigator, "standalone");
+        // Stronger iOS PWA Navigation Fix
+        if (("standalone" in window.navigator) && window.navigator.standalone) {
+            document.addEventListener("click", function(event) {
+                var element = event.target;
+                while (element && element.nodeName !== "A") {
+                    element = element.parentNode;
+                }
+                if (element && element.nodeName === "A" && element.getAttribute("href") && element.getAttribute("href").indexOf("http") !== 0) {
+                    event.preventDefault();
+                    window.location.href = element.getAttribute("href");
+                }
+            }, false);
+        }
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
