@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pi-dash-v3';
+const CACHE_NAME = 'pi-dash-v4';
 const ASSETS = [
   '/',
   '/index.html',
