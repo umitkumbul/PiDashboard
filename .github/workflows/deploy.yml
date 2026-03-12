@@ -1,0 +1,21 @@
+name: Deploy Dashboard to Pi
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Sync Files to Dashboard Folder
+        run: |
+          mkdir -p /home/umitkumbul/Dashboard/
+          rsync -av --delete ./ /home/umitkumbul/Dashboard/
+          # Ensure Tailscale serve is still correctly pointed
+          # (Tailscale remembers background serves, but running this ensures path exists)
+          sudo tailscale serve --bg --set-path=/ /home/umitkumbul/Dashboard/index.html
