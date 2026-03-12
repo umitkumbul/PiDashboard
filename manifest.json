@@ -3,6 +3,7 @@
   "short_name": "Pi Dash",
   "description": "Raspberry Pi Uygulama Paneli",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0f0f1a",
   "theme_color": "#6C63FF",
