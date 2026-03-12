@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Pi Dashboard</title>
+    
+    <!-- PWA & iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Pi Dash">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2333/2333313.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0f0f1a">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f1a;
+            --card-bg: #16213e;
+            --text: #e8e8f0;
+            --primary: #6C63FF;
+            --accent: #FF6B9D;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: env(safe-area-inset-top);
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 0%, rgba(108, 99, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(255, 107, 157, 0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .app-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 24px 16px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .app-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px rgba(108, 99, 255, 0.2);
+        }
+        .app-card:active {
+            transform: scale(0.95);
+        }
+        .emoji {
+            font-size: 2.8rem;
+            margin-bottom: 2px;
+        }
+        .name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .status {
+            font-size: 0.7rem;
+            color: #2ED47A;
+            background: rgba(46, 212, 122, 0.1);
+            padding: 4px 12px;
+            border-radius: 100px;
+        }
+        @media (max-width: 400px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pi Dashboard</h1>
+        <div class="grid">
+            <a href="https://raspberrypi.taila9324d.ts.net/grocery/" class="app-card">
+                <span class="emoji">🛒</span>
+                <span class="name">Grocery App</span>
+                <span class="status">● Aktif</span>
+            </a>
+            <a href="https://raspberrypi.taila9324d.ts.net/learn/" class="app-card">
+                <span class="emoji">📚</span>
+                <span class="name">LearnWords</span>
+                <span class="status">● Aktif</span>
+            </a>
+            <a href="http://raspberrypi:8123" class="app-card">
+                <span class="emoji">🏠</span>
+                <span class="name">Home Assistant</span>
+                <span class="status">● Sistem</span>
+            </a>
+            <a href="http://pi.hole/admin/" class="app-card">
+                <span class="emoji">🛡️</span>
+                <span class="name">Pi-hole</span>
+                <span class="status">● Sistem</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW Registered!'))
+                    .catch(err => console.log('SW Error:', err));
+            });
+        }
+    </script>
+</body>
+</html>
