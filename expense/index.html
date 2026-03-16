@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Harcama Takip</title>
+    <style>
+        body { font-family: system-ui, sans-serif; text-align: center; background: #0f0f1a; color: #e8e8f0; padding: 20px; }
+        .upload-btn { background: #6C63FF; color: white; padding: 15px 25px; border-radius: 8px; font-size: 18px; border: none; cursor: pointer; display: block; width: 100%; box-sizing: border-box; margin-top: 20px; font-weight: bold;}
+        input[type="file"] { display: none; }
+        #status { margin-top: 20px; font-size: 14px; color: #aaa; }
+        #result { margin-top: 20px; text-align: left; background: #16213e; padding: 15px; border-radius: 8px; display: none; overflow: auto; white-space: pre-wrap; font-family: monospace;}
+    </style>
+</head>
+<body>
+    <h2 style="margin-top: 0;">📸 Fiş Tarayıcı</h2>
+    <p style="opacity: 0.8;">Harcamanızı kaydetmek için fişin fotoğrafını çekin.</p>
+    
+    <label for="cameraInput" class="upload-btn">Fotoğraf Çek</label>
+    <input type="file" id="cameraInput" accept="image/*" capture="environment">
+    
+    <div id="status"></div>
+    <pre id="result"></pre>
+
+    <script>
+        const cameraInput = document.getElementById('cameraInput');
+        const statusDiv = document.getElementById('status');
+        const resultDiv = document.getElementById('result');
+        
+        // n8n webhook URL
+        const N8N_WEBHOOK_URL = 'https://n8n.sizintailscaledomaininiz.ts.net/webhook/receipt-upload';
+
+        cameraInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            statusDiv.innerText = "⏳ Fotoğraf yükleniyor ve analiz ediliyor...";
+            resultDiv.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('data', file);
+
+            try {
+                const response = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerText = "✅ İşlem tamamlandı!";
+                    resultDiv.innerText = JSON.stringify(data, null, 2);
+                    resultDiv.style.display = 'block';
+                } else {
+                    statusDiv.innerText = `❌ Hata oluştu: Sunucu ${response.status} döndürdü.`;
+                }
+            } catch (err) {
+                statusDiv.innerText = `❌ Bağlantı hatası: ${err.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

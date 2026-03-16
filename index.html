@@ -154,6 +154,10 @@
                     <span class="emoji">🛡️</span>
                     <span class="name">Pi-hole</span>
                 </div>
+                <div class="app-card" onclick="openApp('expense/')">
+                    <span class="emoji">💸</span>
+                    <span class="name">Fiş Tarayıcı</span>
+                </div>
             </div>
         </div>
     </div>
@@ -175,7 +179,7 @@
 
         function openApp(url) {
             iframe.src = url;
-            appTitle.innerText = url.includes('grocery') ? 'Grocery App' : 'LearnWords';
+            appTitle.innerText = url.includes('grocery') ? 'Grocery App' : url.includes('expense') ? 'Fiş Tarayıcı' : 'LearnWords';
             appView.classList.add('active');
             dashboard.style.transform = 'scale(0.95) opacity(0)';
         }
